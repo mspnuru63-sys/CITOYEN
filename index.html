@@ -187,6 +187,24 @@ html.intro-lock,html.intro-lock body{overflow:hidden}
 .intro-bar{margin-top:30px;width:110px;height:2px;background:rgba(255,255,255,.12);border-radius:2px;overflow:hidden;opacity:0;animation:in-txt .4s ease .2s forwards}
 .intro-bar i{display:block;height:100%;background:var(--leaf);transform-origin:left;transform:scaleX(0);animation:bar 3.3s cubic-bezier(.4,0,.2,1) .2s forwards}
 @keyframes bar{to{transform:scaleX(1)}}
+
+/* ===== Dégradés « chair de poule » : grain marqué, plus dense là où la lumière s'estompe ===== */
+:root{--noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.62' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2.6' intercept='-.8'/%3E%3CfeFuncG type='linear' slope='2.6' intercept='-.8'/%3E%3CfeFuncB type='linear' slope='2.6' intercept='-.8'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+body::before{background:var(--noise);background-size:260px;opacity:.16}
+.stats,.sub,.contact,footer{position:relative}
+.stats::before,.sub::before,.contact::before,footer::before,.hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:var(--noise);background-size:260px;mix-blend-mode:overlay;opacity:.85}
+.hero::before{z-index:3;-webkit-mask-image:radial-gradient(ellipse at 85% 100%,#000 0,rgba(0,0,0,.8) 38%,rgba(0,0,0,.28) 72%,rgba(0,0,0,.14) 100%);mask-image:radial-gradient(ellipse at 85% 100%,#000 0,rgba(0,0,0,.8) 38%,rgba(0,0,0,.28) 72%,rgba(0,0,0,.14) 100%)}
+.stats::before{-webkit-mask-image:radial-gradient(ellipse at 50% 0,#000 0,rgba(0,0,0,.8) 38%,rgba(0,0,0,.28) 72%,rgba(0,0,0,.14) 100%);mask-image:radial-gradient(ellipse at 50% 0,#000 0,rgba(0,0,0,.8) 38%,rgba(0,0,0,.28) 72%,rgba(0,0,0,.14) 100%)}
+.sub::before,.contact::before,footer::before{-webkit-mask-image:radial-gradient(ellipse at 90% 100%,#000 0,rgba(0,0,0,.8) 38%,rgba(0,0,0,.28) 72%,rgba(0,0,0,.14) 100%);mask-image:radial-gradient(ellipse at 90% 100%,#000 0,rgba(0,0,0,.8) 38%,rgba(0,0,0,.28) 72%,rgba(0,0,0,.14) 100%)}
+.stats>.wrap,.sub>.wrap,.contact>.wrap{position:relative;z-index:1}
+footer{isolation:isolate}
+/* glows un peu plus lumineux pour que le grain ressorte */
+.hero::after{background:radial-gradient(ellipse at 85% 100%,rgba(72,125,66,.7),transparent 62%),radial-gradient(ellipse at 12% 18%,rgba(63,110,59,.28),transparent 55%),linear-gradient(0deg,rgba(10,32,22,.94) 8%,rgba(12,34,25,.7) 55%,rgba(12,34,25,.6))}
+.stats{background:radial-gradient(ellipse at 50% 0,rgba(72,125,66,.5),transparent 70%),#0c2219}
+.sub{background:radial-gradient(ellipse at 90% 100%,rgba(72,125,66,.75),transparent 62%),#0c2219}
+.contact{background:radial-gradient(ellipse at 90% 100%,rgba(72,125,66,.7),transparent 62%),#0c2219}
+footer{background:radial-gradient(ellipse at 85% 120%,rgba(72,125,66,.8),transparent 62%),#0a1f16}
+.intro::before{background:var(--noise);background-size:260px;opacity:.8;-webkit-mask-image:radial-gradient(ellipse at 50% 55%,#000,rgba(0,0,0,.3) 75%);mask-image:radial-gradient(ellipse at 50% 55%,#000,rgba(0,0,0,.3) 75%)}
 </style>
 </head>
 <body>
