@@ -163,9 +163,53 @@ input:focus,select:focus,textarea:focus{border-color:var(--leaf)}
 .contact{background:radial-gradient(ellipse at 90% 100%,rgba(63,110,59,.55),transparent 60%),#0c2219}
 footer{background:radial-gradient(ellipse at 85% 120%,rgba(63,110,59,.6),transparent 60%),#0a1f16;text-transform:uppercase;letter-spacing:.1em;font-size:.72rem;font-weight:600;color:#e6efe6}
 @media(max-width:960px){nav{background:rgba(12,34,25,.98)}}
+
+/* ===== Animation d'ouverture : le logo se dessine ===== */
+html.intro-lock,html.intro-lock body{overflow:hidden}
+.intro{position:fixed;inset:0;z-index:2000;display:grid;place-items:center;cursor:pointer;
+ background:radial-gradient(ellipse at 50% 55%,rgba(63,110,59,.45),transparent 62%),radial-gradient(ellipse at 90% 100%,rgba(63,110,59,.4),transparent 55%),#0a1f16;
+ transition:opacity .9s ease,transform .9s cubic-bezier(.6,0,.2,1),visibility 0s .9s}
+.intro::before{content:"";position:absolute;inset:0;opacity:.10;mix-blend-mode:overlay;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.intro.out{opacity:0;transform:scale(1.06);visibility:hidden;pointer-events:none}
+.intro-in{position:relative;display:flex;flex-direction:column;align-items:center;padding:0 24px;text-align:center}
+.intro-logo{width:min(46vw,230px);height:auto;overflow:visible;filter:drop-shadow(0 0 22px rgba(120,200,110,.28))}
+.intro-logo .lf{fill:var(--f);fill-opacity:0;stroke:var(--s);stroke-width:1.1;stroke-linejoin:round;stroke-linecap:round;
+ stroke-dasharray:1;stroke-dashoffset:1;
+ animation:lf-draw 1.25s cubic-bezier(.65,0,.25,1) calc(.25s + var(--i)*.2s) forwards,
+           lf-fill .7s ease calc(1.0s + var(--i)*.2s) forwards}
+@keyframes lf-draw{to{stroke-dashoffset:0}}
+@keyframes lf-fill{to{fill-opacity:1;stroke-width:.2}}
+.intro-name{margin-top:26px;font-weight:800;color:#fff;font-size:clamp(1.05rem,3.4vw,1.6rem);letter-spacing:.34em;text-indent:.34em;text-transform:uppercase;
+ opacity:0;transform:translateY(10px);filter:blur(6px);animation:in-txt .9s ease 2.2s forwards}
+.intro-sub{margin-top:8px;font-size:.68rem;font-weight:500;letter-spacing:.28em;text-indent:.28em;text-transform:uppercase;color:#9bb2a1;
+ opacity:0;animation:in-txt .9s ease 2.5s forwards}
+@keyframes in-txt{to{opacity:1;transform:none;filter:none}}
+.intro-bar{margin-top:30px;width:110px;height:2px;background:rgba(255,255,255,.12);border-radius:2px;overflow:hidden;opacity:0;animation:in-txt .4s ease .2s forwards}
+.intro-bar i{display:block;height:100%;background:var(--leaf);transform-origin:left;transform:scaleX(0);animation:bar 3.3s cubic-bezier(.4,0,.2,1) .2s forwards}
+@keyframes bar{to{transform:scaleX(1)}}
 </style>
 </head>
 <body>
+<div class="intro" id="intro" aria-hidden="true">
+ <div class="intro-in">
+  <svg class="intro-logo" viewBox="-4 -4 168 131" role="img" aria-label="CITOYEN’S GROUP"><path class="lf" pathLength="1" style="--i:0;--f:#1f9d55;--s:#5fe08f" d="M8.8 77.3C7.3 77.1 6.5 76.9 8.3 78.7C10.2 80.4 16.2 84.5 20.0 87.7C23.8 90.8 28.1 94.5 31.2 97.5C34.2 100.5 35.9 102.7 38.2 105.7C40.4 108.6 43.4 113.5 44.8 115.2C46.2 116.8 46.2 116.1 46.5 115.7C46.8 115.2 47.2 114.7 46.7 112.7C46.1 110.6 44.4 106.3 43.0 103.5C41.6 100.7 40.4 98.2 38.5 95.7C36.6 93.1 33.9 90.1 31.5 88.0C29.1 85.9 26.6 84.5 24.3 83.2C22.0 81.8 20.2 81.0 17.7 80.0C15.1 79.0 10.4 77.6 8.8 77.3Z"/><path class="lf" pathLength="1" style="--i:1;--f:#1f9d55;--s:#5fe08f" d="M29.2 46.2C28.5 46.0 26.2 41.4 28.7 47.3C31.1 53.3 40.6 73.7 44.0 82.0C47.4 90.3 47.4 92.0 48.8 97.0C50.3 102.0 51.8 109.5 52.7 112.0C53.5 114.5 53.5 112.3 53.8 112.2C54.2 112.0 54.6 111.9 54.8 111.0C55.1 110.1 55.3 110.3 55.5 106.5C55.7 102.7 56.2 92.2 56.2 88.0C56.2 83.8 55.9 83.4 55.5 81.3C55.1 79.2 54.6 77.8 53.7 75.5C52.7 73.2 51.4 70.3 49.7 67.5C47.9 64.7 45.9 61.9 43.0 58.7C40.1 55.4 34.8 50.2 32.5 48.2C30.2 46.1 29.8 46.3 29.2 46.2Z"/><path class="lf" pathLength="1" style="--i:2;--f:#1f9d55;--s:#5fe08f" d="M46.5 6.7C45.7 6.8 44.3 5.4 45.7 7.8C47.0 10.3 52.3 17.2 54.7 21.3C57.1 25.5 58.1 26.8 60.0 32.7C61.9 38.5 65.2 47.3 66.3 56.3C67.5 65.3 67.8 76.9 67.0 86.7C66.2 96.5 60.3 113.4 61.5 115.2C62.7 116.9 71.0 102.4 74.0 97.2C77.0 92.0 78.0 89.6 79.5 84.0C81.0 78.4 82.6 69.8 83.2 63.8C83.7 57.9 83.4 53.3 82.7 48.3C81.9 43.3 80.9 38.6 78.7 33.8C76.4 29.1 72.8 23.7 69.2 19.7C65.5 15.7 59.8 12.0 56.7 9.8C53.6 7.7 52.2 7.4 50.5 6.8C48.8 6.3 47.3 6.5 46.5 6.7Z"/><path class="lf" pathLength="1" style="--i:3;--f:#f5c400;--s:#ffe36b" d="M142.8 12.0C142.4 11.6 141.4 11.0 140.2 11.2C138.9 11.3 139.1 11.0 135.2 12.8C131.2 14.7 121.2 19.7 116.5 22.3C111.8 25.0 110.2 26.0 107.2 28.7C104.1 31.3 100.5 34.8 98.0 38.2C95.5 41.5 93.5 45.2 92.0 48.7C90.5 52.1 89.8 52.9 88.8 58.7C87.8 64.4 86.4 77.2 86.0 83.2C85.6 89.2 86.0 92.9 86.3 94.7C86.6 96.4 85.5 98.3 87.8 93.5C90.2 88.7 96.5 73.3 100.3 65.8C104.1 58.3 107.2 53.7 110.7 48.5C114.2 43.3 116.0 40.5 121.3 34.7C126.7 28.9 139.1 17.4 142.7 13.7C146.2 9.9 143.2 12.4 142.8 12.0Z"/><path class="lf" pathLength="1" style="--i:4;--f:#d92f22;--s:#ff7a6b" d="M145.8 53.5C144.9 53.3 143.5 52.9 140.5 53.8C137.5 54.7 131.3 57.1 127.8 58.8C124.3 60.5 122.4 61.9 119.5 64.0C116.6 66.1 113.3 68.9 110.5 71.7C107.7 74.4 106.1 76.2 102.8 80.3C99.6 84.5 93.3 92.6 90.8 96.7C88.4 100.7 88.6 102.4 88.2 104.5C87.8 106.6 87.5 110.1 88.3 109.3C89.2 108.6 91.3 102.7 93.3 99.8C95.4 96.9 93.6 97.6 100.7 92.0C107.8 86.4 128.7 71.7 136.0 66.0C143.3 60.3 142.6 59.7 144.3 57.8C146.0 56.0 145.9 55.7 146.2 55.0C146.4 54.3 146.8 53.7 145.8 53.5Z"/><path class="lf" pathLength="1" style="--i:5;--f:#d92f22;--s:#ff7a6b" d="M128.3 92.3C128.0 92.1 127.9 91.6 126.5 91.5C125.1 91.4 122.1 91.4 119.7 91.8C117.2 92.2 114.1 93.1 112.0 93.8C109.9 94.6 108.8 95.1 107.0 96.2C105.2 97.3 102.8 98.9 101.0 100.5C99.2 102.1 97.2 104.0 96.0 105.5C94.8 107.0 94.3 108.3 93.8 109.3C93.4 110.4 93.2 111.4 93.3 111.8C93.5 112.3 93.8 112.7 94.7 112.0C95.6 111.3 97.0 109.1 98.8 107.7C100.7 106.2 101.9 105.1 105.7 103.5C109.4 101.9 117.9 99.6 121.3 98.2C124.8 96.8 125.3 95.8 126.5 95.0C127.7 94.2 128.0 93.6 128.3 93.2C128.6 92.7 128.6 92.6 128.3 92.3Z"/></svg>
+  <div class="intro-name">CITOYEN’S GROUP</div>
+  <div class="intro-sub">Environnement · Économie circulaire</div>
+  <div class="intro-bar"><i></i></div>
+ </div>
+</div>
+<script>
+window.introReady=new Promise(function(res){
+ var el=document.getElementById('intro');
+ var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+ function end(){if(!el)return;var e=el;el=null;e.classList.add('out');document.documentElement.classList.remove('intro-lock');setTimeout(function(){e.remove()},1000);res()}
+ if(reduce){end();return}
+ document.documentElement.classList.add('intro-lock');
+ var t=setTimeout(end,3900);
+ el.addEventListener('click',function(){clearTimeout(t);end()});
+});
+</script>
+
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v5M14 11v5"/></symbol>
 <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></symbol>
@@ -335,7 +379,7 @@ document.querySelectorAll('[data-n]').forEach(e=>co.observe(e));
 const sl=[...document.querySelectorAll('.slide')],dt=document.getElementById('dots');let cur=0,tm;
 sl.forEach((_,i)=>{const b=document.createElement('button');b.setAttribute('aria-label','Diapo '+(i+1));b.onclick=()=>go(i);dt.appendChild(b)});
 function go(n){cur=(n+sl.length)%sl.length;sl.forEach((s,i)=>s.classList.toggle('on',i===cur));[...dt.children].forEach((b,i)=>{b.classList.remove('on');if(i===cur){void b.offsetWidth;b.classList.add('on')}});clearTimeout(tm);tm=setTimeout(()=>go(cur+1),6500)}
-requestAnimationFrame(()=>setTimeout(()=>go(0),150));
+(window.introReady||Promise.resolve()).then(()=>setTimeout(()=>go(0),150));
 /* FR / EN */
 const els=[...document.querySelectorAll('[data-en]')];els.forEach(e=>e.dataset.fr=e.textContent);
 /* Texte qui s'écrit au scroll */
@@ -343,7 +387,7 @@ const tws=[...document.querySelectorAll('h2,.hero h1,.lead')],red=matchMedia('(p
 function typeEl(el){const t=el.textContent.trim();el.style.minHeight=el.offsetHeight+'px';el.textContent='';el.classList.remove('tw-pre');el.classList.add('typing');let i=0;const sp=t.length>90?10:t.length>40?22:34;
  el._t=setInterval(()=>{el.textContent=t.slice(0,++i);if(i>=t.length){clearInterval(el._t);el.classList.remove('typing');el.style.minHeight=''}},sp)}
 const tio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){tio.unobserve(e.target);typeEl(e.target)}}),{threshold:.6});
-if(!red)tws.forEach(e=>{e.classList.add('tw-pre');tio.observe(e)});
+if(!red){tws.forEach(e=>e.classList.add('tw-pre'));(window.introReady||Promise.resolve()).then(()=>tws.forEach(e=>tio.observe(e)))}
 let en=false;const lg=document.getElementById('lg');
 lg.onclick=()=>{en=!en;tws.forEach(e=>{clearInterval(e._t);e.classList.remove('typing');e.style.minHeight=''});els.forEach(e=>e.textContent=en?e.dataset.en:e.dataset.fr);lg.textContent=en?'FR':'EN';document.documentElement.lang=en?'en':'fr'};
 /* Formulaires -> WhatsApp */
